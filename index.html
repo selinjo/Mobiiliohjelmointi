@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+	
+ 	<meta http-equiv="Content-Security-Policy" content="
+			default-src 'self' 'unsafe-inline' ws://192.168.1.249:3000/ http://code.jquery.com https://code.jquery.com  https://ssl.gstatic.com http://ajax.aspnetcdn.com gap: data: blob: filesystem: ;" />
+	
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<script src="https://code.jquery.com/jquery-2.1.4.js" integrity="sha256-siFczlgw4jULnUICcdm9gjQPZkw/YPDqhQ9+nAOScE4=" crossorigin="anonymous" ></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css">	
+	<title>Kippis!</title>
+</head>
+
+<body>
+	<div data-role="popup" id="popupMenu" data-transition="pop" data-theme="a">
+		<ul data-role="listview">
+			<li><a href="#etusivu" id="etusivuLinkki">Juo olut</a></li>			
+			<li><a href="#omat" id="omatLinkki">Omat oluet</a></li>
+			<li><a href="#adminsivu" id="adminLinkki">ADMIN</a></li>
+			<li><a href="#" id="kirjauduUlosLinkki">Kirjaudu ulos</a></li>
+		</ul>
+	</div>
+	
+	<!-- kirjaudu sisään -->	
+	<div data-role="page" id="kirjaudusivu">
+		<div data-role="header">
+			<h1>OlutApp</h1>
+		</div>
+		
+		<div id="uusiTunnus"></div>
+		
+		<div id="kirjautuminen" role="main" class="ui-content ui-body-a">
+			<h1>Kippis!</h1>
+			<form id="kirjauduLomake">
+			<label for="tunnus">Käyttäjätunnus:</label>
+			<input type="text" name="tunnus" id="tunnus">
+			<label for="salasana">Salasana:</label>
+			<input type="password" name="salasana" id="salasana">
+			<button class="ui-btn" id="kirjaudu">Kirjaudu</button>
+			</form>
+		</div>
+		
+		<div>
+			<p><a href="#reksivu" id="rekLinkki">Rekisteröidy</a></p>
+		</div>
+		
+		<div data-role="footer">
+			<h1>Harjoitustyö / Jori Selin</h1>
+		</div>
+	</div>
+		
+	<!-- rekisteroidy -->
+	<div data-role="page" id="reksivu">
+		<div data-role="header">
+			<h1>Kippis!</h1>
+		</div>
+		
+		<div id="rekisteroidy" class="ui-content ui-body-a">
+		<form id="rekisteroiLomake">
+			<label for="enimi">Etunimi:</label>
+			<input type="text" name="enimi" id="enimi">
+			<label for="snimi">Sukunimi:</label>
+			<input type="text" name="snimi" id="snimi">
+			<button type="button" class="ui-btn" id="luoBtn">Luo käyttäjätunnus</button>
+			<label for="rekTunnus">Käyttäjätunnus:</label>
+			<input type="text" name="rekTunnus" id="rekTunnus" readonly="readonly">
+			<label for="pwd">Salasana:</label>
+			<input type="password" name="pwd" id="pwd">
+			<label for="pwd2">Salasana uudelleen:</label>
+			<input type="password" name="pwd2" id="pwd2">
+			<label for="adminValinta">Admin:</label>
+			<select name="adminValinta">
+				<option value="ei">Ei</option>
+				<option value="kylla">Kyllä</option>
+			</select>
+			<br><br>
+			<input type="submit" class="ui-btn" id="rekBtn" value="Luo tili">
+		</form>
+			<button class="ui-btn" id="peruBtn">Peruuta</button>
+		</div>
+		
+		<div data-role="footer">
+			<h1>Harjoitustyö / Jori Selin</h1>
+		</div>
+	</div>
+	
+	<!-- etusivu -->	
+    <div data-role="page" id="etusivu">
+		<div data-role="header">
+			<a href="#popupMenu" data-rel="popup" data-transition="flip" class="ui-btn ui-btn-inline  ui-corner-all ui-icon-bars ui-btn-icon-notext">Menu</a>		
+			<h1 id="kirjautuneena"></h1>
+		</div>
+		
+		<div role="main" class="ui-content ui-body-a">
+		
+			<h2>Arvioi olut:</h2>
+		
+			<button class="kameraBtn" disabled id="kameraBtn">Ota kuva</button><br>
+			<img id="kuva" style="display:none" src="" alt=""><br>
+			<form id="lisaaLomake">
+					<label for="nimi">Nimi:</label>
+					<input type="text" name="nimi" id="nimi">
+					<label for="arvioSlider">Arvio (1-5):</label>
+					<input type="range" name="arvioSlider" id="arvioSlider" min="0" max="5" step="0.25">
+					<label for="lisatieto">Lisätiedot:</label>
+					<textarea name="lisatieto" id="lisatieto"></textarea>
+					<input type="hidden" name="paivays" id="paivays">
+					<input type="hidden" name="kuvaBase64" id="kuvaBase64">
+					<input type="hidden" name="ktunnus" id="ktunnus">
+					<input type="button" class="ui-btn" id="lahetaBtn" value="Juo olut!">
+			</form>
+		</div>
+		
+		<div class="footer" data-role="footer">
+			<h1>Harjoitustyö / Jori Selin</h1>
+		</div>
+	</div>
+
+	<!-- omat oluet -->		
+	<div data-role="page" id="omat">
+		<div data-role="header">
+			<a href="#popupMenu" data-rel="popup" data-transition="flip" class="ui-btn ui-btn-inline  ui-corner-all ui-icon-bars ui-btn-icon-notext">Menu</a>
+			<h1 id="kirjautuneenaa"></h1>
+		</div>
+		
+		<div role="main" class="ui-content ui-body-a">	
+			<div>
+				<h2>Omat oluet:</h2>
+			</div>
+			
+			<div id="naytaOluet">
+				<table border="0" style="table-layout:fixed;border-collapse:collapse;" id="olutLista" class="ui-responsive">
+					<tbody>					
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div data-role="footer">
+			<h1>Harjoitustyö / Jori Selin</h1>
+		</div>
+	</div>
+	
+	<!-- admin sivu -->
+	<div data-role="page" id="adminsivu">
+		<div data-role="header">
+			<a href="#popupMenu" data-rel="popup" data-transition="flip" class="ui-btn ui-btn-inline  ui-corner-all ui-icon-bars ui-btn-icon-notext">Menu</a>
+			<h1 id="kirjautuneenaaa"></h1>
+		</div>
+		
+		<div role="main" class="ui-content ui-body-a">	
+			<div>
+				<h2>ADMIN:</h2>
+			</div>
+			
+			<div id="naytaKayttaja" class="ui-content ui-body-a">
+				<form id="naytaKayttajatLomake">
+					<select name="valitseKayttaja" id="valitseKayttaja">
+					<option>Valitse käyttäjä</option>
+					</select>
+					<button type="button" class="ui-btn" id="naytaKayOluetBtn">Näytä käyttäjän oluet</button>
+				</form>
+				<form id="poistaKayttajaLomake">
+					<input type="hidden" name="poistaKayttajaId" id="poistaKayttajaId">
+					<button type="button" class="ui-btn" id="poistaKayttajaBtn">Poista käyttäjä</button>
+					<br><br>
+				<form>
+			</div>
+			
+			<div id="naytaAdminOluet">
+				<table border="0" style="table-layout:fixed;border-collapse:collapse;" id="olutAdminLista" class="ui-responsive">
+					<tbody>					
+					</tbody>
+				</table>
+				<form id="poistaOlutLomake">
+					<input type="text" name="poistaOlutId" id="poistaOlutId">
+				<form>
+			</div>
+		</div>
+		
+		<div data-role="footer">
+			<h1>Harjoitustyö / Jori Selin</h1>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="cordova.js"></script> 
+	<script type="text/javascript">
+		
+		/* KIRJAUTUMINEN */
+		$("#kirjaudu").on("tap", function(){
+			if($("#tunnus").val().length>0&&$("#salasana").val().length>0){
+				$.ajax({
+					type: 'POST',
+					data: $("#kirjauduLomake").serialize(),
+					url: 'http://proto387.haaga-helia.fi/~a1800266/backend/mo_selectLogin.php',
+					success: function(data){	
+						console.log(1);
+						var tiedot = JSON.parse(data);	
+						if(tiedot.length>0){
+							console.log(tiedot[0].etunimi);
+							sessionStorage.etunimi=tiedot[0].etunimi;
+							console.log(tiedot[0].kayttaja_id);
+							sessionStorage.kId=tiedot[0].kayttaja_id;
+							console.log(tiedot[0].admin);
+							sessionStorage.admin=tiedot[0].admin;	
+							document.location="#etusivu";
+						}else{
+							console.log("Käyttäjää ei tunnisteta.")
+							document.location="#kirjaudusivu";
+						}
+					},
+					error: function(){	
+						console.log(2);											
+					}
+				});
+			}			
+		});
+		
+		/* KAMERA */
+		var laiteKesken = $.Deferred();
+		var etusivuKesken = $.Deferred();  
+		var imageStr = "";
+		var pictureSource;   
+		var destinationType;
+		
+		$.when(laiteKesken, etusivuKesken).done(kameraValmis);
+		
+		document.addEventListener("deviceReady", onDeviceReady, false);
+		
+		function onDeviceReady() {
+			pictureSource=navigator.camera.PictureSourceType;
+			destinationType=navigator.camera.DestinationType;			
+			laiteKesken.resolve();
+		}
+
+		function kameraValmis() {
+			$( "#kameraBtn" ).attr( "disabled", false );
+			$( "#kameraBtn" ).on("tap", function() {				
+				navigator.camera.getPicture(onCaptureSuccess, onError, { 
+					quality: 25,
+					//destinationType: Camera.DestinationType.FILE_URI,  // vain puhelimessa
+					destinationType: Camera.DestinationType.DATA_URL,   // selaimessa ja puhelimessa
+					saveToPhotoAlbum: true
+				})
+			})
+						
+		function onCaptureSuccess(imageData) {
+			//$("#kuva").attr("src", imageData); //kun FILE_URI				
+			$("#kuva").attr("src", "data:image/jpeg;base64," + imageData);  // kun DATA_URL
+			$("#kuva").show();
+			imageStr = imageData;
+			$("#kuvaBase64").val(imageStr);
+		}
+					
+		function onError() {
+				console.log("Kuvaaminen/lataaminen ei onnistu");
+			}
+		}
+		
+		/* HAE PÄIVÄMÄÄRÄ */
+		function haePvm() {
+			var date = new Date();
+			var p = date.getDate();
+			var k = date.getMonth()+1;
+			var v = date.getFullYear();
+			if(p < 10) {
+				p = "0" + p;
+			}
+			if(k < 10) {
+				k = "0" + k;
+			}
+			return p + "." + k + "." + v;
+		}
+		
+		//NÄYTETÄÄN VALITUN KÄYTTÄJÄN OLUET
+		function naytaKayttajaOluet(){
+			var kayId = $("#valitseKayttaja").val();
+			$("#olutAdminLista tbody").html("");
+			$.getJSON("http://proto387.haaga-helia.fi/~a1800266/backend/mo_haeAdminOluet.php", function(result){
+				$.each(result, function(i, field) {
+					if(field.kayttaja_id==kayId){ //vain tietyn käyttäjä id:n oluet
+						$("#olutAdminLista tbody").append("<tr><td><b>"
+												+field.etunimi+" "+field.sukunimi+"</b></td><td></td><td></td></tr><tr><td class=kuvaCell><img width=150 src='data:image/png;base64, "
+												+field.kuvaBase64+"' /></td><td class='arvioTiedot'><b>"
+												+field.nimi+"</b><br>"
+												+field.pvm+"<br>"
+												+field.arvio+" / 5<br><i>"							//Luodaa poista painike, millä napataan olut_id ja lähetetään se poistaOlut funktioon
+												+field.lisatieto+"</i></td><td><button type='button' value='"+field.olut_id+"' onclick='poistaOlut(this.value)'>Poista</button></td></tr><br>"); 
+					}
+				});
+			});
+		}
+
+		//POISTA OLUT
+		function poistaOlut(valPoistettavaId){ //saadaan olut_id poistettavasta oluesta
+			$("#poistaOlutId").val(valPoistettavaId);
+			poistaOlutKannasta();
+		};
+		
+		function poistaOlutKannasta() {
+			if($("#poistaOlutId").val().length>0){			
+			$.ajax({
+				type: 'POST',
+				data: $("#poistaOlutLomake").serialize(),
+				url: 'http://proto387.haaga-helia.fi/~a1800266/backend/mo_poistaOlut.php',
+				success: function(data){
+					naytaKayttajaOluet();
+				},
+				error: function(){						
+					alert("Oluen poistaminen ei onnistunut!");
+				}
+			});
+			}
+		};
+		
+		//POISTA KÄYTTÄJÄ
+		function poistaKayttaja(){
+			if($("#poistaKayttajaId").val().length>0){				
+				$.ajax({
+					type: 'POST',
+					data: $("#poistaKayttajaLomake").serialize(),
+					url: 'http://proto387.haaga-helia.fi/~a1800266/backend/mo_poistaKayttaja.php',
+					success: function(data){
+						location.reload();
+					},
+					error: function(){						
+						alert("Käyttäjän poistaminen ei onnistunut!");
+					}
+				});
+			}
+		}
+		
+		$(document).one("pagebeforecreate", function () { //Ennen minkä tahansa sivun luomista, tehdään kerran (.one)	
+			$("#popupMenu").enhanceWithin().popup();			
+		});
+		
+		$(document).on("pagecreate", "#etusivu", function() { 	//Sivun luonti, tehdään kerran
+			$("#paivays").val(haePvm());
+		});
+		
+		$(document).on("pagecreate", "#omat", function() {		//Sivun luonti, tehdään kerran
+
+		});
+		
+		$(document).on("pagecreate", "#kirjaudusivu", function() { 	//Sivun luonti, tehdään kerran
+			
+		});
+		
+		$(document).on("pagecontainerbeforeshow", function( event, ui ) {	//Ennen minkä tahansa sivun näyttämistä. (pagebeforeshow is deprecated)	
+			var toPage = ui.toPage[0].id; //Mille sivulle ollaan menossa, palauttaa sivun id:n
+			$("#popupMenu a").show();
+			
+			if(sessionStorage.admin==0 || toPage=="adminsivu"){ // Piilota adminlinkki, jos ei admin tai jos on jo adminsivulla
+				$("#adminLinkki").hide();
+			}
+			
+			if(toPage=="adminsivu" && sessionStorage.admin==0){
+				document.location="#etusivu";
+			}
+			
+			if(toPage=="etusivu"){
+				$("#etusivuLinkki").hide(); //Piilottaa menu -valikosta linkin sivulle, missä jo ollaan
+				$("#nimi").val("");
+				$("#arvioSlider").val("2.5");
+				$("#arvioSlider").slider("refresh"); //Palauttaa sliderin vivun oletusarvoon
+				$("#lisatieto").val("");
+				$("#kuva").attr("src", "");
+			}else if(toPage=="omat"){
+				$("#omatLinkki").hide();
+			}
+				
+			if(toPage=="kirjaudusivu"){
+				$("#tunnus").val(""); // Tyhjennetään tunnus
+				$("#salasana").val(""); // ja salasana -kentät
+			}
+			
+			if(toPage=="reksivu"){
+				$("#enimi").val(""); //Tyhjennetään rekisterilomakkeen kentät
+				$("#snimi").val("");
+				$("#pwd").val("");
+				$("#pwd2").val("");
+			}
+			
+		});
+		
+		$(document).on("pagecontainershow", function( event, ui ) {	//Mikä tahansa sivu näytetään.	
+			var toPage = ui.toPage[0].id; //Mikä sivu on näytetty, palauttaa sivun id:n
+			
+		// REKISTERÖINTISIVULLE
+			$("#rekLinkki").on('tap', function(){
+				document.location = "#reksivu";
+			});
+			
+		// KIRJAUDU ULOS
+			$("#kirjauduUlosLinkki").on("tap", function(){
+				sessionStorage.clear(); // sessionstoragen tyhjennys ja siirtyminen kirjautumissivulle
+				document.location="#kirjaudusivu";
+			});
+			
+			if(toPage=="etusivu"){
+			etusivuKesken.resolve();
+				$("#kirjautuneena").html("Kippis, " + sessionStorage.etunimi + " !");
+				$("#ktunnus").val(sessionStorage.kId);
+			}
+			
+			if(toPage=="omat"){
+			$("#kirjautuneenaa").html("Kippis, " + sessionStorage.etunimi + " !"); //Kertoo "omat" sivulla kirjautuneen henkilön
+			$("#olutLista tbody").html("");
+			$.getJSON("http://proto387.haaga-helia.fi/~a1800266/backend/mo_haeOluet.php", function(result){
+				$.each(result, function(i, field) {
+					if(field.kayttaja_id == sessionStorage.kId){ // Näytetään vain kirjautuneen käyttäjän oluet
+					$("#olutLista tbody").append("<tr><td class=kuvaCell><img width=150 src='data:image/png;base64, "
+													+field.kuvaBase64+"' /></td><td class='arvioTiedot'><b>"
+													+field.nimi+"</b><br>"
+													+field.pvm+"<br>"
+													+field.arvio+" / 5<br><i>"
+													+field.lisatieto+"</i></td></tr>");
+					}
+				});
+			});
+			}
+			
+		//OPTION -VALIKKO ADMINSIVULLA, NÄYTTÄÄ REKISTERÖITYNEET KÄYTTÄJÄT
+			if(toPage=="adminsivu"){
+				$("#kirjautuneenaaa").html("Kippis, " + sessionStorage.etunimi + " !"); //Kertoo "admin" sivulla kirjautuneen henkilön
+				$("#naytaKayttajatLomake select").html("<option value=''>Valitse käyttäjä</option>");
+				$.getJSON("http://proto387.haaga-helia.fi/~a1800266/backend/mo_selectKayttajat.php", function(result){ //haetaan käyttäjät listaukseen
+					$.each(result, function(i, field) {
+						if(field.poistettu == 0){ //Ei näytä poistettuja käyttäjiä
+						$("#naytaKayttajatLomake select").append("<option value='"+field.kayttaja_id+"'>"+field.etunimi+" "+field.sukunimi+"</option>"); // Näytetään käyttäjien nimet ja annetaan
+						}																																// option kentälle arvoksi kayttaja_id
+					});
+				});
+				
+		// PAINIKE, HAKEE ADMINSIVULLA VALITUN KÄYTTÄJÄN OLUET
+			$("#naytaKayOluetBtn").on('tap', function(){
+				naytaKayttajaOluet();
+			});
+			
+	// POISTA KÄYTTÄJÄ -PAINIKE
+		$("#poistaKayttajaBtn").on('tap', function(){
+			var kayId = $("#valitseKayttaja").val(); //Haetaan valitun käyttäjän käyttäjäid ja lähetetään poistaKayttaja funktiolle
+			$("#poistaKayttajaId").val(kayId);
+			poistaKayttaja();
+		});
+			
+			}
+			
+		// OLUEN LISÄYS
+		if(toPage=="etusivu"){
+			$("#lahetaBtn").on("tap", function(){
+			if($("#kuvaBase64").val().length>0&&$("#nimi").val().length>0){				
+				$.ajax({
+					type: 'POST',
+					data: $("#lisaaLomake").serialize(),
+					url: 'http://proto387.haaga-helia.fi/~a1800266/backend/mo_lisaaOlut.php',
+					success: function(data){						
+						document.location="#omat";						
+					},
+					error: function(){						
+						alert("Oluen lisääminen ei onnistunut!");
+					}
+					});
+				$( '#lisaaLomake' ).each(function(){
+				this.reset(); // Lomakkeen tyhjennys submitin jälkeen. (muuten lisäsi saman oluen useaan kertaan)
+				});
+			}			
+			});
+		}
+			
+		// KÄYTTÄJÄTUNNUKSEN LUONTI
+		if(toPage=="reksivu"){
+						
+			$("#luoBtn").on("tap", function(){
+			var kayttajatunnus = "";
+			var haeEnimi = $("#enimi").val(); //Haetaan lomakkeeseen syötetyt etunimi ja sukunimi
+			var haeSnimi = $("#snimi").val();
+
+			subtunnus = haeEnimi.substring(0, 4) + haeSnimi.substring(0, 4);
+			subLowTunnus = subtunnus.toLowerCase();
+			kayttajatunnus = subLowTunnus.replace(/ä/g, "a"); //Muutetaan tunnuksessa olevat ääkköset pois. "/g" korvaa kaikki(default on että poistaa vain ensimmäisen)
+			kayttajatunnus = kayttajatunnus.replace(/ö/g, "o");
+			
+			$("#rekTunnus").val(kayttajatunnus);			
+			});
+			
+			$("#peruBtn").on("tap", function(){
+			document.location = "#kirjaudusivu";
+			});
+			
+		// REKISTERÖINTI / KÄYTTÄJÄN LISÄYS
+			$("#rekBtn").on("tap", function(){
+			if($("#enimi").val().length>0&&$("#snimi").val().length>0&&$("#pwd").val().length>0&&$("#pwd2").val()==$("#pwd").val()){
+				var uusiKtunnus = $("#rekTunnus").val();
+				$.ajax({
+					type: 'POST',
+					data: $("#rekisteroiLomake").serialize(),
+					url: 'http://proto387.haaga-helia.fi/~a1800266/backend/mo_lisaaKayttaja.php',
+					success: function(data){						
+						document.location="#kirjaudusivu";
+						$("#uusiTunnus").html("Tunnuksen luominen onnistui! Käyttäjätunnuksesi on <b>" + uusiKtunnus + "</b>"); // Näytetään uusi luotu käyttäjätunnus kirjautumissivulla						
+					},
+					error: function(){						
+						alert("Käyttäjän lisääminen ei onnistunut!");
+					}
+					});				
+				}			
+			});
+		}
+		
+		});
+		
+		// REKISTERÖINTILOMAKKEEN VALIDOINNIT
+			$('#rekisteroiLomake').validate({
+				errorPlacement: function (error, element) {
+					error.appendTo(element.parent().prev());
+				},
+				rules: {
+					enimi: {
+						required: true,
+						maxlength: 50
+					},
+					snimi: {
+						required: true,
+						maxlength: 50
+					},
+					pwd: {
+						required: true,
+						minlength: 6
+					},
+					pwd2: {
+						required: true,
+						equalTo: ('#pwd') //Uudelleen syötettävä salasana pitää täsmätä luodun salasanan kanssa
+					}
+				},
+				messages: {
+					enimi: {
+						required: "Vaaditaan",
+						maxlength: "Etunimi on liian pitkä"
+					},
+					snimi: {
+						required: "Vaaditaan",
+						maxlength: "Sukunimi on liian pitkä"
+					},
+					pwd: {
+						required: "Vaaditaan",
+						minlength: "Salasana liian lyhyt (väh. 6 merkkiä)"
+					},
+					pwd2: {
+						required: "Vaaditaan",
+						equalTo: "Salasanat eivät täsmää"
+					}
+				}
+			});
+
+	</script>
+</body>
+
+</html>
